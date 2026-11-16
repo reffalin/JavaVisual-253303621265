@@ -1,6 +1,8 @@
 
 package com.unpri.charactermanager.model;
 
+import java.util.Objects;
+
 public class Character {
 
     private String name;
@@ -107,6 +109,26 @@ public class Character {
     // Method untuk mengecek karakter masih hidup
     public boolean isAlive() {
         return hitPoints > 0;
+    }
+
+    // Membandingkan karakter berdasarkan nama
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+
+        Character character = (Character) obj;
+        return Objects.equals(name, character.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     // Method untuk menampilkan informasi karakter
