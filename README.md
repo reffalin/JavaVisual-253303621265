@@ -1,75 +1,49 @@
-# TP8 – Character Manager GUI
+## TP10 – Character Manager AppTheme
 
-## 1. Deskripsi
+### 1. Deskripsi
 
-Pada TP8 ini, program Character Manager dikembangkan dari program berbasis console menjadi aplikasi dengan tampilan GUI menggunakan Java Swing. Melalui pengembangan ini, data karakter yang sebelumnya ditampilkan di terminal sekarang dapat dilihat melalui sebuah jendela aplikasi.
+Pada TP10, program Character Manager mengalami pengembangan pada bagian tampilan. Pengembangan ini dilakukan dengan menambahkan class `AppTheme` untuk mengatur warna, font, dan border yang digunakan dalam aplikasi. Tujuannya agar pengaturan tampilan lebih rapi dan tidak semuanya ditulis langsung di dalam `MainWindow`.
 
-Selain menampilkan daftar karakter, program juga dilengkapi dengan informasi rata-rata level untuk mengetahui nilai rata-rata dari seluruh karakter yang tersedia.
+### 2. Implementasi AppTheme
 
-## 2. Struktur Proyek
+Class `AppTheme.java` berisi pengaturan tampilan yang digunakan pada aplikasi, mulai dari warna latar belakang, warna teks, warna kartu karakter, font, hingga border. Selain itu, terdapat method `colorFor()` yang digunakan untuk menentukan warna kartu berdasarkan role masing-masing karakter.
 
-```text
-CharacterManager/
-├── src/
-│   └── com/unpri/charactermanager/
-│       ├── Main.java
-│       ├── model/
-│       │   ├── Character.java
-│       │   ├── CharacterType.java
-│       │   └── CharacterManager.java
-│       └── view/
-│           └── MainWindow.java
-├── bin/
-├── outputtp8-1.png
-├── outputtp8-2.png
-└── README.md
-```
+Dengan adanya class ini, pengaturan tampilan menjadi lebih terpusat sehingga jika ingin mengubah warna atau font, perubahan dapat dilakukan melalui `AppTheme` tanpa harus mengubah banyak bagian pada `MainWindow`.
 
-## 3. Implementasi GUI
+### 3. Pengembangan MainWindow v0.4
 
-Pada bagian ini dibuat class `MainWindow.java` di dalam package `view`. Class tersebut menggunakan `JFrame` sebagai jendela utama untuk menampilkan daftar karakter.
+Pada versi v0.4, tampilan `MainWindow` diperbarui dengan menggunakan pengaturan yang sudah dibuat di `AppTheme`. Setiap karakter ditampilkan dalam bentuk kartu dengan warna yang berbeda sesuai role-nya. Ukuran jendela juga menggunakan method `pack()` agar dapat menyesuaikan dengan komponen yang ditampilkan.
 
-Data karakter diambil dari `CharacterManager`, kemudian ditampilkan menggunakan perulangan. Dengan demikian, setiap karakter yang tersimpan dapat ditampilkan tanpa harus membuat JLabel secara manual untuk masing-masing karakter.
+Selain itu, diterapkan aturan khusus untuk karakter yang memiliki level 5 atau lebih. Karakter tersebut akan ditampilkan dengan teks berwarna emas dan dicetak tebal. Batas level ini disimpan dalam konstanta `GOLD_LEVEL_THRESHOLD` agar lebih mudah digunakan dan diatur.
 
-Program juga menggunakan `SwingUtilities.invokeLater()` agar proses pembuatan dan penampilan GUI dijalankan melalui Event Dispatch Thread.
+### 4. Properti Tambahan
 
-## 4. Penambahan Karakter
+Dalam pengembangan ini, terdapat dua properti tambahan yang diterapkan pada tampilan karakter, yaitu:
 
-Pada pengembangan ini terdapat dua karakter tambahan, yaitu:
+1. **Tooltip HP dan ATK**  
+   Informasi HP dan ATK dapat dilihat ketika kursor diarahkan ke kartu karakter. Dengan begitu, informasi tambahan tetap bisa diketahui tanpa harus ditampilkan langsung pada bagian utama kartu.
 
-- **Thor** dengan tipe WARRIOR dan level 8. Karakter ini ditambahkan untuk memberikan variasi level yang lebih tinggi.
-- **Freya** dengan tipe HEALER dan level 2. Karakter ini ditambahkan agar daftar karakter memiliki tipe yang lebih beragam.
+2. **Karakter level 1 tidak aktif**  
+   Label karakter yang memiliki level 1 dibuat tidak aktif menggunakan `setEnabled(false)`. Pengaturan ini digunakan untuk memberikan perbedaan tampilan pada karakter yang masih berada di level awal.
 
-Dengan penambahan tersebut, jumlah karakter yang ditampilkan menjadi enam karakter.
+### 5. Screenshot
 
-## 5. Mini-Challenge: Rata-rata Level
+**Tampilan sebelum TP10 (v0.3)**
 
-Fitur rata-rata level ditampilkan di bagian bawah daftar karakter. Perhitungannya menggunakan method `getAverageLevel()` yang sudah dibuat pada `CharacterManager`.
+![Screenshot sebelum TP10](outputtp10-1.png)
 
-Untuk menguji fitur ini, level Thor diubah dari level 5 menjadi level 8. Setelah program dijalankan kembali, nilai rata-rata level ikut berubah dari 2,83 menjadi 3,33.
+**Tampilan sesudah TP10 (v0.4)**
 
-## 6. Screenshot Output
+![Screenshot sesudah TP10](outputtp10-2.png)
 
-Berikut adalah hasil tampilan program sebelum dan sesudah perubahan data karakter.
+### 6. Pemisahan Model dan View
 
-**Sebelum perubahan data**
+Pengaturan warna ditempatkan di `AppTheme` karena warna merupakan bagian dari tampilan aplikasi. Sementara itu, class `Character` tetap digunakan untuk menyimpan data karakter, seperti nama, tipe, level, HP, dan ATK.
 
-![Output TP8 sebelum perubahan](outputtp8-1.png)
+Jika pengaturan warna dimasukkan ke dalam class `Character`, bagian pengelolaan data akan bercampur dengan pengaturan tampilan. Oleh karena itu, keduanya dipisahkan agar kode lebih mudah dipahami dan perubahan tampilan tidak perlu memengaruhi data karakter.
 
-**Sesudah perubahan data**
+### 7. Analisis
 
-![Output TP8 sesudah perubahan](outputtp8-2.png)
+Analisis TP10 membahas beberapa materi yang berkaitan dengan pengembangan aplikasi, yaitu penggunaan getter dan setter pada komponen Swing, perbedaan pengaturan ukuran komponen, penggunaan logical font, serta pemisahan tanggung jawab antara Model dan View.
 
-## 7. Alur Data dan MVC
-
-Data karakter dibuat di `Main.java` dengan bantuan `CharacterManager`. Setelah itu, data tersebut diberikan kepada `MainWindow` untuk ditampilkan pada jendela aplikasi.
-
-Dalam penerapan MVC, class `Character` dan `CharacterManager` berperan sebagai Model yang mengelola data. Sementara itu, `MainWindow` berperan sebagai View yang menampilkan data kepada pengguna. `Main.java` menjadi bagian yang menghubungkan keduanya saat program dijalankan.
-
-## 8. Analisis
-
-**Link Google Docs:** https://docs.google.com/document/d/19DkADBYzsJm1pFf_WcYkgb2wItTcyEMFdeVkQOd_p28/edit?usp=sharing
-
-## 9. Kesimpulan
-
-Melalui TP8, program Character Manager berhasil dikembangkan menjadi aplikasi GUI menggunakan Java Swing. Program sudah dapat menampilkan enam karakter secara dinamis dan menghitung rata-rata level berdasarkan data yang tersedia. Dari pengembangan ini, saya juga mempelajari hubungan antara Model dan View serta cara menjalankan aplikasi GUI menggunakan Swing.
+**Link Google Docs:** https://docs.google.com/document/d/1MTaVMRqRkq_b48w2UDM5ZwUJF-1hyJLtUJbj9MpBVHE/edit?usp=sharing
