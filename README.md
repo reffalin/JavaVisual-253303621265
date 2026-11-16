@@ -1,67 +1,75 @@
-#TP5 – Character Manager
+# TP8 – Character Manager GUI
 
-### 1. Deskripsi
+## 1. Deskripsi
 
-Pada tugas TP5 ini, program Character Manager dikembangkan dengan menambahkan beberapa fungsi untuk mengelola data karakter. Pengembangan dilakukan menggunakan ArrayList sebagai tempat penyimpanan data karakter.
+Pada TP8 ini, program Character Manager dikembangkan dari program berbasis console menjadi aplikasi dengan tampilan GUI menggunakan Java Swing. Melalui pengembangan ini, data karakter yang sebelumnya ditampilkan di terminal sekarang dapat dilihat melalui sebuah jendela aplikasi.
 
-Selain menambahkan fungsi pengelolaan data, tugas ini juga menerapkan perbandingan objek menggunakan `equals()`, pengujian nama duplikat, serta penggunaan reference pada objek Java.
+Selain menampilkan daftar karakter, program juga dilengkapi dengan informasi rata-rata level untuk mengetahui nilai rata-rata dari seluruh karakter yang tersedia.
 
-### 2. Struktur Proyek
+## 2. Struktur Proyek
 
 ```text
 CharacterManager/
 ├── src/
 │   └── com/unpri/charactermanager/
 │       ├── Main.java
-│       └── model/
-│           ├── Character.java
-│           ├── CharacterType.java
-│           └── CharacterManager.java
+│       ├── model/
+│       │   ├── Character.java
+│       │   ├── CharacterType.java
+│       │   └── CharacterManager.java
+│       └── view/
+│           └── MainWindow.java
 ├── bin/
-├── outputtp3.png
-├── outputtp5.png
+├── outputtp8-1.png
+├── outputtp8-2.png
 └── README.md
 ```
 
-### 3. Implementasi Program
+## 3. Implementasi GUI
 
-Beberapa fungsi yang ditambahkan dan dikembangkan pada TP5 antara lain:
+Pada bagian ini dibuat class `MainWindow.java` di dalam package `view`. Class tersebut menggunakan `JFrame` sebagai jendela utama untuk menampilkan daftar karakter.
 
-**Bagian A – Implementasi Core**
+Data karakter diambil dari `CharacterManager`, kemudian ditampilkan menggunakan perulangan. Dengan demikian, setiap karakter yang tersimpan dapat ditampilkan tanpa harus membuat JLabel secara manual untuk masing-masing karakter.
 
-- `equals()` digunakan untuk membandingkan dua karakter berdasarkan nama.
-- `addCharacter()` digunakan untuk menambahkan karakter ke dalam daftar.
-- `findByName()` digunakan untuk mencari karakter berdasarkan nama.
-- `removeCharacter()` digunakan untuk menghapus karakter.
-- `getTotalCharacters()` digunakan untuk mengetahui jumlah karakter.
-- `getAllCharacters()` digunakan untuk mendapatkan salinan daftar karakter tanpa mengubah daftar aslinya.
+Program juga menggunakan `SwingUtilities.invokeLater()` agar proses pembuatan dan penampilan GUI dijalankan melalui Event Dispatch Thread.
 
-**Bagian B – Mini-Challenge**
+## 4. Penambahan Karakter
 
-- `getAverageLevel()` digunakan untuk menghitung rata-rata level karakter. Jika belum ada karakter, hasilnya adalah 0.
-- `findByType()` digunakan untuk mencari karakter berdasarkan tipe yang dipilih.
+Pada pengembangan ini terdapat dua karakter tambahan, yaitu:
 
-**Bagian C – Fitur Tambahan**
+- **Thor** dengan tipe WARRIOR dan level 8. Karakter ini ditambahkan untuk memberikan variasi level yang lebih tinggi.
+- **Freya** dengan tipe HEALER dan level 2. Karakter ini ditambahkan agar daftar karakter memiliki tipe yang lebih beragam.
 
-Method tambahan yang dibuat adalah `findStrongest()`. Method ini digunakan untuk mencari karakter dengan nilai attack paling tinggi dari seluruh karakter yang tersimpan.
+Dengan penambahan tersebut, jumlah karakter yang ditampilkan menjadi enam karakter.
 
-Pencarian dilakukan dengan membandingkan nilai attack setiap karakter. Jika daftar karakter masih kosong, method akan mengembalikan `null`.
+## 5. Mini-Challenge: Rata-rata Level
 
-### 4. Pengujian Program
+Fitur rata-rata level ditampilkan di bagian bawah daftar karakter. Perhitungannya menggunakan method `getAverageLevel()` yang sudah dibuat pada `CharacterManager`.
 
-Pengujian dilakukan melalui `Main.java` untuk memastikan setiap fungsi dapat berjalan dengan baik. Pengujian meliputi penambahan karakter, penolakan nama duplikat, pencarian dan penghapusan karakter, perhitungan rata-rata level, serta pencarian berdasarkan tipe.
+Untuk menguji fitur ini, level Thor diubah dari level 5 menjadi level 8. Setelah program dijalankan kembali, nilai rata-rata level ikut berubah dari 2,83 menjadi 3,33.
 
-Selain itu, dilakukan pengujian salinan ArrayList dengan menghapus isi daftar salinan untuk memastikan daftar karakter asli tidak ikut berubah.
+## 6. Screenshot Output
 
-### 5. Screenshot Output
+Berikut adalah hasil tampilan program sebelum dan sesudah perubahan data karakter.
 
-Berikut merupakan hasil pengujian program Character Manager TP5.
+**Sebelum perubahan data**
 
-![Output Character Manager TP5 - Bagian 1](outputtp5.png)
+![Output TP8 sebelum perubahan](outputtp8-1.png)
 
-![Output Character Manager TP5 - Bagian 2](outputtp05.png)
+**Sesudah perubahan data**
 
-### 6. Analisis
+![Output TP8 sesudah perubahan](outputtp8-2.png)
 
-**Link Google Docs:** https://docs.google.com/document/d/1hDeDd1LbydfVmSO68xuhlgy8NQ0NPCIgeXcDf-wmU8E/edit?usp=sharing
+## 7. Alur Data dan MVC
 
+Data karakter dibuat di `Main.java` dengan bantuan `CharacterManager`. Setelah itu, data tersebut diberikan kepada `MainWindow` untuk ditampilkan pada jendela aplikasi.
+
+Dalam penerapan MVC, class `Character` dan `CharacterManager` berperan sebagai Model yang mengelola data. Sementara itu, `MainWindow` berperan sebagai View yang menampilkan data kepada pengguna. `Main.java` menjadi bagian yang menghubungkan keduanya saat program dijalankan.
+
+## 8. Analisis
+
+**Link Google Docs:** https://docs.google.com/document/d/19DkADBYzsJm1pFf_WcYkgb2wItTcyEMFdeVkQOd_p28/edit?usp=sharing
+
+## 9. Kesimpulan
+
+Melalui TP8, program Character Manager berhasil dikembangkan menjadi aplikasi GUI menggunakan Java Swing. Program sudah dapat menampilkan enam karakter secara dinamis dan menghitung rata-rata level berdasarkan data yang tersedia. Dari pengembangan ini, saya juga mempelajari hubungan antara Model dan View serta cara menjalankan aplikasi GUI menggunakan Swing.
