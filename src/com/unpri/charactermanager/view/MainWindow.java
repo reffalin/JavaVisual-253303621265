@@ -1,6 +1,5 @@
-
 package com.unpri.charactermanager.view;
-
+import com.unpri.charactermanager.model.CharacterType;
 import com.unpri.charactermanager.model.Character;
 import com.unpri.charactermanager.model.CharacterManager;
 
@@ -108,9 +107,43 @@ public class MainWindow extends JFrame {
         JScrollPane scroll = new JScrollPane(wrapperPanel);
         scroll.setPreferredSize(new Dimension(560, 360));
 
+        // Panel legenda role
+        JPanel legendPanel = new JPanel();
+        legendPanel.setLayout(new BoxLayout(legendPanel, BoxLayout.Y_AXIS));
+        legendPanel.setBackground(AppTheme.BACKGROUND);
+        legendPanel.setBorder(AppTheme.PANEL_BORDER);
+
+        // Judul legenda
+        JLabel legendTitle = new JLabel("LEGENDA ROLE");
+        legendTitle.setFont(AppTheme.HIGHLIGHT_FONT);
+        legendTitle.setForeground(AppTheme.TEXT);
+        legendTitle.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        legendPanel.add(legendTitle);
+        legendPanel.add(Box.createVerticalStrut(15));
+
+        // Mengambil daftar role dari enum CharacterType
+        for (CharacterType type : CharacterType.values()) {
+
+        JPanel legendItem = new JPanel(new BorderLayout());
+        legendItem.setBackground(AppTheme.colorFor(type.name()));
+        legendItem.setBorder(AppTheme.PANEL_BORDER);
+
+        JLabel roleNameLabel = new JLabel(type.name());
+        roleNameLabel.setFont(AppTheme.NORMAL_FONT);
+        roleNameLabel.setForeground(AppTheme.TEXT);
+
+        legendItem.add(roleNameLabel, BorderLayout.CENTER);
+        legendPanel.add(legendItem);
+        legendPanel.add(Box.createVerticalStrut(10));
+    }
+
+        legendPanel.add(Box.createVerticalGlue());
+
         // Menempatkan panel pada wilayah BorderLayout
         panel.add(headerPanel, BorderLayout.NORTH);
         panel.add(scroll, BorderLayout.CENTER);
+        panel.add(legendPanel, BorderLayout.EAST);
 
         add(panel);
 
