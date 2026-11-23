@@ -18,19 +18,26 @@ public class MainWindow extends JFrame {
         setTitle("Character Manager");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Panel utama
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        // Panel utama menggunakan BorderLayout
+        JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBackground(AppTheme.BACKGROUND);
         panel.setBorder(AppTheme.PANEL_BORDER);
+
+        // Panel untuk judul
+        JPanel headerPanel = new JPanel(new BorderLayout());
+        headerPanel.setBackground(AppTheme.BACKGROUND);
+
+        // Panel untuk daftar karakter
+        JPanel characterPanel = new JPanel();
+        characterPanel.setLayout(new BoxLayout(characterPanel, BoxLayout.Y_AXIS));
+        characterPanel.setBackground(AppTheme.BACKGROUND);
 
         // Judul aplikasi
         JLabel titleLabel = new JLabel("DAFTAR KARAKTER");
         titleLabel.setFont(AppTheme.TITLE_FONT);
         titleLabel.setForeground(AppTheme.TEXT);
-        panel.add(titleLabel);
 
-        panel.add(Box.createVerticalStrut(15));
+        headerPanel.add(titleLabel, BorderLayout.CENTER);
 
         // Mengambil dan menampilkan data karakter
         ArrayList<Character> characters = manager.getAllCharacters();
@@ -62,13 +69,13 @@ public class MainWindow extends JFrame {
                 characterLabel.setFont(AppTheme.HIGHLIGHT_FONT);
             }
 
-            // Properti tambahan 1: tooltip HP dan ATK
+            // Tooltip HP dan ATK
             card.setToolTipText(
                 "HP: " + character.getHitPoints() +
                 " | ATK: " + character.getAttack()
             );
 
-            // Properti tambahan 2: karakter level 1 tidak aktif
+            // Karakter level 1 tidak aktif
             if (character.getLevel() == 1) {
                 characterLabel.setEnabled(false);
             }
@@ -76,8 +83,8 @@ public class MainWindow extends JFrame {
             card.add(characterLabel, BorderLayout.CENTER);
             card.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-            panel.add(card);
-            panel.add(Box.createVerticalStrut(10));
+            characterPanel.add(card);
+            characterPanel.add(Box.createVerticalStrut(10));
         }
 
         // Menampilkan rata-rata level
@@ -88,10 +95,14 @@ public class MainWindow extends JFrame {
         averageLabel.setFont(AppTheme.HIGHLIGHT_FONT);
         averageLabel.setForeground(AppTheme.TEXT);
 
-        panel.add(Box.createVerticalStrut(10));
-        panel.add(averageLabel);
+        characterPanel.add(Box.createVerticalStrut(10));
+        characterPanel.add(averageLabel);
 
-        add(new JScrollPane(panel));
+        // Menempatkan panel pada wilayah BorderLayout
+        panel.add(headerPanel, BorderLayout.NORTH);
+        panel.add(characterPanel, BorderLayout.CENTER);
+
+        add(panel);
 
         // Menyesuaikan ukuran jendela dengan isi
         pack();
