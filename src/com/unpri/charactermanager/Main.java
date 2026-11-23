@@ -21,6 +21,8 @@ public class Main {
         manager.addCharacter(new Character("Luna", CharacterType.MAGE, 4, 400, 40));
         manager.addCharacter(new Character("Thor", CharacterType.WARRIOR, 8, 800, 80));
         manager.addCharacter(new Character("Freya", CharacterType.HEALER, 2, 200, 20));
+        manager.addCharacter(new Character("Brutus", CharacterType.WARRIOR, 6, 600, 60));
+        manager.addCharacter(new Character("Iris", CharacterType.HEALER, 5, 500, 50));
 
         // Menjalankan GUI melalui Event Dispatch Thread
         SwingUtilities.invokeLater(() -> {
