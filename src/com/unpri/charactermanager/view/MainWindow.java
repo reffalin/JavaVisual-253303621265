@@ -98,9 +98,19 @@ public class MainWindow extends JFrame {
         characterPanel.add(Box.createVerticalStrut(10));
         characterPanel.add(averageLabel);
 
+        // Panel pembungkus daftar karakter
+        JPanel wrapperPanel = new JPanel(new BorderLayout());
+        wrapperPanel.setBackground(AppTheme.BACKGROUND);
+
+        wrapperPanel.add(characterPanel, BorderLayout.NORTH);
+
+        // Membuat daftar karakter dapat digulir
+        JScrollPane scroll = new JScrollPane(wrapperPanel);
+        scroll.setPreferredSize(new Dimension(560, 360));
+
         // Menempatkan panel pada wilayah BorderLayout
         panel.add(headerPanel, BorderLayout.NORTH);
-        panel.add(characterPanel, BorderLayout.CENTER);
+        panel.add(scroll, BorderLayout.CENTER);
 
         add(panel);
 
