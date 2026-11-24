@@ -1,60 +1,91 @@
-## TP12 — Responsive Character Manager Layout
+# Character Manager
 
-### A. Deskripsi
+Character Manager merupakan aplikasi desktop berbasis Java yang digunakan untuk mengelola data karakter. Project ini dibuat untuk memenuhi tugas mata kuliah Java Visual SIH-6406.
 
-Pada TP12, aplikasi Character Manager dikembangkan dengan mengatur ulang tampilan menggunakan Layout Manager pada Java Swing. Pengaturan ini dilakukan agar setiap bagian aplikasi memiliki posisi yang jelas dan tampilan tetap menyesuaikan ketika ukuran jendela berubah.
+## Fitur Aplikasi
 
-### B. Struktur Layout
+- Menambahkan karakter baru berdasarkan nama, role, dan level.
+- Menampilkan daftar karakter dalam bentuk card.
+- Menampilkan jumlah dan rata-rata level karakter.
+- Membedakan warna card berdasarkan role karakter.
+- Memeriksa nama agar tidak ada karakter dengan nama yang sama.
+- Mencari dan menghapus karakter dari daftar.
 
-Aplikasi menggunakan `BorderLayout` sebagai layout utama dengan pembagian sebagai berikut:
+## Struktur Project
 
-- **NORTH:** Menampilkan judul aplikasi dan panel statistik karakter.
-- **CENTER:** Menampilkan daftar karakter di dalam `JScrollPane`.
-- **EAST:** Menampilkan legenda jenis karakter menggunakan `BoxLayout`.
-- **SOUTH:** Menampilkan informasi status aplikasi dan versi.
+```text
+CharacterManager/
+├── src/
+│   └── com/unpri/charactermanager/
+│       ├── Main.java
+│       ├── model/
+│       │   ├── Character.java
+│       │   ├── CharacterManager.java
+│       │   └── CharacterType.java
+│       └── view/
+│           ├── AppTheme.java
+│           ├── CharacterFormPanel.java
+│           └── MainWindow.java
+├── bin/
+├── screenshots/
+└── README.md
+```
 
-Panel daftar karakter dan panel legenda menggunakan `BoxLayout` agar komponennya tersusun secara vertikal. Sementara itu, panel statistik menggunakan `GridLayout(2,2)` untuk menyusun empat informasi dalam dua baris dan dua kolom.
+## TP14 — Form dan Validasi Input
 
-### C. Wireframe
+### A. Implementasi Form
 
-![Wireframe TP12](wireframe.png)
+Pada TP14, aplikasi Character Manager dilengkapi dengan form untuk menambahkan karakter. Form tersebut terdiri dari kolom nama menggunakan `JTextField`, pilihan role menggunakan `JComboBox`, dan pengaturan level menggunakan `JSpinner` dengan batas level 1 sampai 99.
 
-### D. Screenshot Tampilan Aplikasi
+Sebelum karakter ditambahkan, sistem akan memeriksa data yang dimasukkan. Pemeriksaan nama dilakukan mulai dari memastikan nama tidak kosong, memeriksa panjang nama, format penulisan, hingga memastikan nama belum digunakan. Jika terdapat kesalahan, pesan akan ditampilkan pada form agar pengguna mengetahui bagian yang perlu diperbaiki.
 
-**1. Tampilan awal**
+### B. Aturan Validasi Tambahan
 
-![Tampilan awal](outputtp12-1.png)
+Selain validasi utama, terdapat dua aturan tambahan yang diterapkan:
 
-**2. Tampilan setelah diperlebar**
+1. Nama karakter harus memiliki panjang minimal 3 dan maksimal 20 karakter. Pemeriksaan ini dilakukan pada View karena berhubungan langsung dengan data yang dimasukkan pengguna.
+2. Nama hanya boleh menggunakan huruf dan satu spasi di antara kata. Aturan ini juga diperiksa pada View untuk mencegah penulisan nama yang tidak sesuai.
 
-![Tampilan diperlebar](outputtp12-2.png)
+Pada bagian Model, terdapat aturan tambahan untuk role MAGE. Karakter dengan role MAGE hanya diperbolehkan memiliki level maksimal 60. Jika level yang dimasukkan melebihi batas tersebut, sistem akan menolak data dan menampilkan pesan kesalahan.
 
-**3. Tampilan setelah dipersempit**
+### C. Hasil Pengujian
 
-![Tampilan dipersempit](outputtp12-3.png)
+Pengujian dilakukan dengan mencoba beberapa jenis input untuk memastikan validasi berjalan sesuai aturan.
 
-### E. Pengamatan Perubahan Ukuran Jendela
+| No. | Input | Hasil yang Diharapkan | Hasil Aktual | Lapisan |
+|---|---|---|---|---|
+| 1 | Nama kosong | Data ditolak | Pesan nama wajib diisi muncul | View |
+| 2 | Arthur (nama sudah ada) | Data ditolak | Pesan nama sudah digunakan muncul | View |
+| 3 | Al | Data ditolak karena terlalu pendek | Pesan batas 3–20 karakter muncul | View |
+| 4 | Refalin123 | Data ditolak karena format tidak sesuai | Pesan format nama muncul | View |
+| 5 | Refalin  Silaban | Data ditolak karena spasi berulang | Pesan format nama muncul | View |
+| 6 | Gandalf, MAGE, level 61 | Data ditolak | Pesan batas level MAGE muncul | Model |
+| 7 | Gandalf, MAGE, level 60 | Data diterima | Karakter berhasil ditambahkan | Model |
+| 8 | `  Arwen  `, ARCHER, level 1 | Nama disimpan tanpa spasi di awal dan akhir | Karakter berhasil ditambahkan setelah trim | View |
 
-| Kondisi | Prediksi | Hasil Pengamatan |
-|---|---|---|
-| Ukuran awal | Semua bagian aplikasi terlihat dengan susunan yang rapi. | Komponen tampil sesuai dengan pembagian layout. |
-| Jendela diperlebar | Ruang tampilan menjadi lebih luas dan komponen menyesuaikan posisinya. | Tampilan menjadi lebih lebar dan daftar karakter tetap terlihat. |
-| Jendela dipersempit | Ruang daftar karakter berkurang dan scrollbar dapat digunakan untuk melihat isi lainnya. | Scrollbar muncul sehingga daftar karakter tetap dapat diakses. |
+### D. Screenshot
 
-### F. Panel Tambahan dan Alasan Pemilihan Layout
+**1. Pengujian nama kosong**
 
-Panel tambahan yang dibuat adalah panel statistik karakter pada bagian atas aplikasi. Panel ini menampilkan informasi seperti jumlah karakter dan rata-rata level. Layout yang digunakan adalah `GridLayout(2,2)` karena empat informasi dapat disusun dalam dua baris dan dua kolom dengan ukuran sel yang sama.
+Simpan gambar dengan nama `tp14-empty-name.png`.
 
-Layout yang tidak dipilih adalah `FlowLayout`. Layout tersebut lebih mengutamakan susunan komponen secara horizontal dan dapat berpindah baris ketika ruang tidak mencukupi. Untuk panel statistik ini, `GridLayout` lebih sesuai karena susunannya tetap teratur.
+![Pengujian nama kosong](outputtp14-1.png)
 
-### G. Struktur Panel Bersarang
+**2. Pengujian nama duplikat**
 
-Aplikasi menggunakan beberapa panel yang disusun di dalam panel utama. Panel header berisi judul aplikasi dan panel statistik, sedangkan panel utama menampung header, daftar karakter, legenda, serta status bar. Daftar karakter ditempatkan dalam `JScrollPane` agar tetap dapat diakses ketika ukuran jendela diperkecil. Pembagian panel ini membuat setiap bagian memiliki fungsi masing-masing dan lebih mudah diatur.
+Simpan gambar dengan nama `tp14-duplicate-name.png`.
 
-### H. Kesimpulan
+![Pengujian nama duplikat](outputtp14-2.png)
 
-Penggunaan Layout Manager membantu membuat tampilan aplikasi lebih terstruktur dan menyesuaikan ukuran jendela. Dengan menggabungkan `BorderLayout`, `BoxLayout`, dan `GridLayout`, setiap komponen dapat ditempatkan sesuai fungsinya. Penggunaan `JScrollPane` juga membantu agar daftar karakter tetap dapat diakses ketika ruang tampilan terbatas.
+**3. Penambahan karakter berhasil**
 
-### I. Link Google Docs 
-https://docs.google.com/document/d/1yZoqGbUuq_spa8f3M1Poc093G7Sd08qHeh4ZmkI8SxA/edit?usp=sharing
+Simpan gambar dengan nama `tp14-success.png`.
 
+![Penambahan karakter berhasil](outputtp14-3.png)
+
+### E. Catatan Implementasi
+
+Pada TP14, penggunaan `ActionListener` masih dibuat secara sederhana untuk menjalankan proses ketika tombol tambah karakter ditekan. View juga masih memanggil `manager.addCharacter()` secara langsung untuk menambahkan data ke dalam daftar karakter. Cara ini digunakan agar form dapat berjalan sesuai kebutuhan tugas. Ke depannya, proses tersebut dapat dikembangkan dengan pemisahan tugas yang lebih jelas antara View, Model, dan bagian pengendali.
+
+### F. Google Docs
+https://docs.google.com/document/d/1KGDi9qdMg1q-IjtkEDKBklb1hnLLuM4SLbHvNAw4OGE/edit?usp=sharing
