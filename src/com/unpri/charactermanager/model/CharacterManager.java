@@ -12,6 +12,14 @@ public class CharacterManager {
     public CharacterManager() {
         characters = new ArrayList<>();
     }
+    // Mengecek apakah nama karakter sudah digunakan
+    public boolean isNameTaken(String name) {
+    if (name == null) {
+        return false;
+    }
+
+    return findByName(name.trim()) != null;
+}
 
     // Menambahkan karakter dan menolak nama duplikat
     public boolean addCharacter(Character character) {
