@@ -24,8 +24,8 @@ public class Character {
 
     // Constructor kedua
     public Character(String name, CharacterType type, int level, int hitPoints, int attack) {
-        this.name = name;
-        this.type = type;
+        setName(name);
+        setType(type);
         setLevel(level);
 
         if (hitPoints < 0 || attack < 0) {
@@ -43,7 +43,11 @@ public class Character {
     }
 
     public void setName(String name) {
-        this.name = name;
+        if (name == null || name.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nama karakter tidak boleh kosong.");
+        }
+
+        this.name = name.trim();
     }
 
     // Getter dan Setter Type
@@ -52,6 +56,14 @@ public class Character {
     }
 
     public void setType(CharacterType type) {
+        if (type == null) {
+            throw new IllegalArgumentException("Role karakter harus dipilih.");
+        }
+
+        if (type == CharacterType.MAGE && level > 60) {
+            throw new IllegalArgumentException("MAGE tidak boleh memiliki level di atas 60.");
+        }
+
         this.type = type;
     }
 
@@ -61,8 +73,12 @@ public class Character {
     }
 
     public void setLevel(int level) {
-        if (level < 1) {
-            throw new IllegalArgumentException("Level minimal 1.");
+        if (level < 1 || level > 99) {
+            throw new IllegalArgumentException("Level harus berada di antara 1 sampai 99.");
+        }
+
+        if (type == CharacterType.MAGE && level > 60) {
+            throw new IllegalArgumentException("MAGE tidak boleh memiliki level di atas 60.");
         }
 
         this.level = level;
@@ -106,7 +122,7 @@ public class Character {
         this.mana = mana;
     }
 
-    // Method untuk mengecek karakter masih hidup
+    // Mengecek karakter masih hidup
     public boolean isAlive() {
         return hitPoints > 0;
     }
@@ -131,7 +147,7 @@ public class Character {
         return Objects.hash(name);
     }
 
-    // Method untuk menampilkan informasi karakter
+    // Menampilkan informasi karakter
     @Override
     public String toString() {
         return "Character{" +
